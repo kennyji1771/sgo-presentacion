@@ -1,0 +1,348 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>SGO/P · Sistema de Gestión Universal de Proyectos</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #0b1a2a;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .presentation-container {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      background: radial-gradient(circle at 20% 30%, #1a3349, #0a1520);
+      outline: none;
+    }
+
+    .slide-wrapper {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    .slide {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      border-radius: 16px;
+      box-shadow: 0 25px 50px -8px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.05);
+      transition: opacity 0.25s ease;
+      background: #fff;
+    }
+
+    .nav-controls {
+      position: fixed;
+      bottom: 24px;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      z-index: 10;
+      pointer-events: none;
+    }
+
+    .nav-btn {
+      pointer-events: auto;
+      background: rgba(20, 40, 60, 0.8);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.15);
+      color: white;
+      width: 48px;
+      height: 48px;
+      border-radius: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+      user-select: none;
+    }
+
+    .nav-btn:hover {
+      background: #2e577a;
+      transform: scale(1.05);
+      border-color: rgba(255,255,255,0.4);
+    }
+
+    .nav-btn:active {
+      transform: scale(0.95);
+    }
+
+    .counter {
+      pointer-events: auto;
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      padding: 8px 20px;
+      border-radius: 40px;
+      color: white;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      border: 1px solid rgba(255,255,255,0.2);
+      font-size: 1rem;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
+
+    .progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 0%;
+      height: 4px;
+      background: linear-gradient(90deg, #4aa3df, #7ac6ff);
+      z-index: 20;
+      transition: width 0.2s ease;
+      box-shadow: 0 0 10px #3a9bd9;
+    }
+
+    .fullscreen-btn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 30;
+      pointer-events: auto;
+      background: rgba(0,0,0,0.4);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: white;
+      width: 42px;
+      height: 42px;
+      border-radius: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .fullscreen-btn:hover {
+      background: #2e577a;
+    }
+
+    .credit {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      color: rgba(255,255,255,0.3);
+      font-size: 0.8rem;
+      z-index: 15;
+      pointer-events: none;
+    }
+
+    @media (max-width: 600px) {
+      .nav-btn {
+        width: 44px;
+        height: 44px;
+        font-size: 22px;
+      }
+      .counter {
+        padding: 6px 16px;
+        font-size: 0.9rem;
+      }
+    }
+
+    .slide:not([src]) {
+      opacity: 0;
+    }
+  </style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<div class="fullscreen-btn" id="fullscreenBtn" title="Pantalla completa">
+  <span>⛶</span>
+</div>
+
+<div class="presentation-container" id="presentationContainer" tabindex="-1">
+  <div class="slide-wrapper" id="slideWrapper">
+    <img class="slide" id="currentSlide" src="img/slide-01.png" alt="Diapositiva SGO/P">
+  </div>
+</div>
+
+<div class="nav-controls">
+  <div class="nav-btn" id="prevBtn" title="Anterior (←)">←</div>
+  <div class="counter" id="counter">1 / 8</div>
+  <div class="nav-btn" id="nextBtn" title="Siguiente (→)">→</div>
+</div>
+
+<div class="credit">SGO/P · Sistema de Gestión Universal de Proyectos</div>
+
+<script>
+  (function() {
+    // TOTAL DE DIAPOSITIVAS: 8
+    const TOTAL_SLIDES = 8;
+    let currentIndex = 0;
+    
+    const slideImg = document.getElementById('currentSlide');
+    const counterEl = document.getElementById('counter');
+    const progressBar = document.getElementById('progressBar');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const fullscreenBtn = document.getElementById('fullscreenBtn');
+    const container = document.getElementById('presentationContainer');
+    
+    // Precarga de imágenes
+    const preloadImages = [];
+    for (let i = 1; i <= TOTAL_SLIDES; i++) {
+      const img = new Image();
+      img.src = img/slide-.png;
+      preloadImages.push(img);
+    }
+    
+    function updateSlide(index) {
+      if (index < 0) index = TOTAL_SLIDES - 1;
+      if (index >= TOTAL_SLIDES) index = 0;
+      currentIndex = index;
+      
+      const slideNumber = currentIndex + 1;
+      const imgSrc = img/slide-.png;
+      
+      slideImg.src = imgSrc;
+      slideImg.alt = Diapositiva  de ;
+      
+      counterEl.textContent = ${slideNumber} / ;
+      
+      const progressPercent = (slideNumber / TOTAL_SLIDES) * 100;
+      progressBar.style.width = ${progressPercent}%;
+    }
+    
+    function nextSlide() {
+      updateSlide(currentIndex + 1);
+    }
+    
+    function prevSlide() {
+      updateSlide(currentIndex - 1);
+    }
+    
+    // Eventos de botones
+    prevBtn.addEventListener('click', (e) => {
+      prevSlide();
+      container.focus(); // Asegurar foco para teclado
+    });
+    
+    nextBtn.addEventListener('click', (e) => {
+      nextSlide();
+      container.focus();
+    });
+    
+    // Navegación por teclado (usamos document en lugar de window)
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        prevSlide();
+        container.focus();
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        nextSlide();
+        container.focus();
+      } else if (e.key === 'Home') {
+        e.preventDefault();
+        updateSlide(0);
+        container.focus();
+      } else if (e.key === 'End') {
+        e.preventDefault();
+        updateSlide(TOTAL_SLIDES - 1);
+        container.focus();
+      }
+    });
+    
+    // Hacer clic en el contenedor principal para recuperar foco
+    container.addEventListener('click', () => {
+      container.focus();
+    });
+    
+    // También al hacer clic en la imagen
+    slideImg.addEventListener('click', () => {
+      container.focus();
+    });
+    
+    // Swipe táctil
+    let touchStartX = 0;
+    let touchEndX = 0;
+    
+    document.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, {passive: true});
+    
+    document.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      handleSwipe();
+    });
+    
+    function handleSwipe() {
+      const threshold = 50;
+      if (touchEndX < touchStartX - threshold) {
+        nextSlide();
+        container.focus();
+      } else if (touchEndX > touchStartX + threshold) {
+        prevSlide();
+        container.focus();
+      }
+    }
+    
+    // Pantalla completa
+    fullscreenBtn.addEventListener('click', () => {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().then(() => {
+          container.focus();
+        });
+      } else {
+        document.exitFullscreen();
+      }
+    });
+    
+    // Iniciar con foco en el contenedor para capturar teclas
+    updateSlide(0);
+    container.focus();
+    
+    // Prevenir comportamiento por defecto de otras teclas
+    window.addEventListener('keydown', (e) => {
+      if (['ArrowUp', 'ArrowDown', 'Space', 'PageUp', 'PageDown'].includes(e.key)) {
+        e.preventDefault();
+      }
+    }, false);
+    
+    // Reenfocar cuando el ratón sale y entra (útil en pantalla completa)
+    document.addEventListener('fullscreenchange', () => {
+      if (document.fullscreenElement) {
+        container.focus();
+      }
+    });
+    
+    // Asegurar foco si se hace clic en cualquier botón
+    document.querySelectorAll('.nav-btn, .fullscreen-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        setTimeout(() => container.focus(), 10);
+      });
+    });
+  })();
+</script>
+</body>
+</html>
