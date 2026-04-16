@@ -3,7 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>SGO/P · Sistema de Gestión Universal de Proyectos</title>
+  <title>NEXUS · SGO/P | Presentación Corporativa</title>
+  <!-- Tipografía Inter (estilo NEXUS) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
@@ -12,22 +16,84 @@
     }
 
     body {
-      background: #0b1a2a;
-      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: #0B0E14;  /* fondo base oscuro NEXUS */
+      color: #FFFFFF;
       display: flex;
       flex-direction: column;
       height: 100vh;
       overflow: hidden;
+      /* Sutil patrón de rejilla tecnológica */
+      background-image: 
+        linear-gradient(rgba(0, 163, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 163, 255, 0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
     }
 
+    /* --- ENCABEZADO NEXUS (FIJO) --- */
+    .nexus-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 24px;
+      background: rgba(8, 12, 20, 0.75);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(0, 163, 255, 0.25);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .nexus-logo {
+      height: 32px;
+      width: auto;
+      filter: drop-shadow(0 0 8px rgba(0, 163, 255, 0.3));
+    }
+
+    .presentation-title {
+      font-weight: 500;
+      font-size: 1.1rem;
+      letter-spacing: 0.3px;
+      color: #E0E0E0;
+      border-left: 1px solid rgba(255,255,255,0.2);
+      padding-left: 16px;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .slide-indicator {
+      background: rgba(0, 163, 255, 0.15);
+      padding: 6px 14px;
+      border-radius: 30px;
+      border: 1px solid rgba(0, 163, 255, 0.3);
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: #B0D4F0;
+    }
+
+    /* --- CONTENEDOR PRINCIPAL (con espacio para el header) --- */
     .presentation-container {
       flex: 1;
       display: flex;
       align-items: center;
       justify-content: center;
-      position: relative;
-      background: radial-gradient(circle at 20% 30%, #1a3349, #0a1520);
-      outline: none;
+      padding-top: 70px;  /* espacio para el header fijo */
+      padding-bottom: 20px;
+      background: radial-gradient(circle at 30% 40%, rgba(0, 163, 255, 0.08) 0%, transparent 60%);
     }
 
     .slide-wrapper {
@@ -36,312 +102,284 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 1rem;
+      padding: 1.2rem;
     }
 
     .slide {
       max-width: 100%;
       max-height: 100%;
       object-fit: contain;
-      border-radius: 16px;
-      box-shadow: 0 25px 50px -8px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.05);
-      transition: opacity 0.25s ease;
-      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 30px 50px -10px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(0, 163, 255, 0.15);
+      background: #FFFFFF;
+      transition: box-shadow 0.3s ease;
     }
 
-    .nav-controls {
-      position: fixed;
-      bottom: 24px;
-      left: 0;
-      right: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 20px;
-      z-index: 10;
-      pointer-events: none;
-    }
-
-    .nav-btn {
-      pointer-events: auto;
-      background: rgba(20, 40, 60, 0.8);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      border: 1px solid rgba(255,255,255,0.15);
-      color: white;
-      width: 48px;
-      height: 48px;
-      border-radius: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 24px;
-      cursor: pointer;
-      transition: all 0.2s;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-      user-select: none;
-    }
-
-    .nav-btn:hover {
-      background: #2e577a;
-      transform: scale(1.05);
-      border-color: rgba(255,255,255,0.4);
-    }
-
-    .nav-btn:active {
-      transform: scale(0.95);
-    }
-
-    .counter {
-      pointer-events: auto;
-      background: rgba(0,0,0,0.5);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      padding: 8px 20px;
-      border-radius: 40px;
-      color: white;
-      font-weight: 500;
-      letter-spacing: 0.5px;
-      border: 1px solid rgba(255,255,255,0.2);
-      font-size: 1rem;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-    }
-
+    /* --- BARRA DE PROGRESO NEXUS --- */
     .progress-bar {
       position: fixed;
       top: 0;
       left: 0;
       width: 0%;
-      height: 4px;
-      background: linear-gradient(90deg, #4aa3df, #7ac6ff);
-      z-index: 20;
-      transition: width 0.2s ease;
-      box-shadow: 0 0 10px #3a9bd9;
+      height: 3px;
+      background: linear-gradient(90deg, #00A3FF, #5EC8FF);
+      z-index: 100;
+      box-shadow: 0 0 12px #00A3FF;
+      transition: width 0.25s ease-out;
     }
 
-    .fullscreen-btn {
+    /* --- CONTROLES DE NAVEGACIÓN (GLASS) --- */
+    .nav-controls {
       position: fixed;
-      top: 20px;
-      right: 20px;
-      z-index: 30;
+      bottom: 28px;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 24px;
+      z-index: 40;
+      pointer-events: none;
+    }
+
+    .nav-btn {
       pointer-events: auto;
-      background: rgba(0,0,0,0.4);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      border: 1px solid rgba(255,255,255,0.2);
-      color: white;
-      width: 42px;
-      height: 42px;
+      background: rgba(12, 20, 30, 0.7);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(0, 163, 255, 0.35);
+      color: #FFFFFF;
+      width: 52px;
+      height: 52px;
       border-radius: 40px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 20px;
+      font-size: 26px;
+      font-weight: 300;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5), 0 0 0 0 rgba(0, 163, 255, 0.4);
+      user-select: none;
+    }
+
+    .nav-btn:hover {
+      background: #00A3FF;
+      border-color: #00A3FF;
+      box-shadow: 0 8px 25px rgba(0, 163, 255, 0.5);
+      transform: scale(1.05);
+      color: #0B0E14;
+    }
+
+    .nav-btn:active {
+      transform: scale(0.96);
+    }
+
+    .counter {
+      pointer-events: auto;
+      background: rgba(8, 12, 20, 0.7);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      padding: 10px 24px;
+      border-radius: 40px;
+      color: #FFFFFF;
+      font-weight: 500;
+      font-size: 1.1rem;
+      border: 1px solid rgba(0, 163, 255, 0.3);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      letter-spacing: 0.5px;
+    }
+
+    /* --- BOTÓN PANTALLA COMPLETA --- */
+    .fullscreen-btn {
+      position: fixed;
+      top: 80px;  /* debajo del header */
+      right: 24px;
+      z-index: 60;
+      background: rgba(12, 20, 30, 0.6);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(0, 163, 255, 0.3);
+      color: #D0E5FF;
+      width: 44px;
+      height: 44px;
+      border-radius: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
       cursor: pointer;
       transition: 0.2s;
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.4);
     }
 
     .fullscreen-btn:hover {
-      background: #2e577a;
+      background: #00A3FF;
+      color: #0B0E14;
+      border-color: #00A3FF;
     }
 
-    .credit {
+    /* --- PIE DE PÁGINA DISCRETO --- */
+    .nexus-footer {
       position: fixed;
-      bottom: 20px;
-      left: 20px;
-      color: rgba(255,255,255,0.3);
+      bottom: 16px;
+      left: 24px;
+      z-index: 35;
+      color: rgba(180, 210, 240, 0.4);
       font-size: 0.8rem;
-      z-index: 15;
+      font-weight: 400;
       pointer-events: none;
+      text-shadow: 0 2px 5px rgba(0,0,0,0.5);
     }
 
+    /* Ajustes responsivos */
     @media (max-width: 600px) {
+      .nexus-header {
+        padding: 8px 16px;
+      }
+      .presentation-title {
+        font-size: 0.9rem;
+      }
+      .nexus-logo {
+        height: 26px;
+      }
       .nav-btn {
-        width: 44px;
-        height: 44px;
-        font-size: 22px;
+        width: 46px;
+        height: 46px;
+        font-size: 24px;
       }
       .counter {
         padding: 6px 16px;
-        font-size: 0.9rem;
+        font-size: 0.95rem;
       }
-    }
-
-    .slide:not([src]) {
-      opacity: 0;
+      .fullscreen-btn {
+        top: 70px;
+        right: 16px;
+      }
     }
   </style>
 </head>
 <body>
 
+<!-- Barra de progreso superior -->
 <div class="progress-bar" id="progressBar"></div>
 
-<div class="fullscreen-btn" id="fullscreenBtn" title="Pantalla completa">
-  <span>⛶</span>
-</div>
+<!-- ENCABEZADO NEXUS -->
+<header class="nexus-header">
+  <div class="header-left">
+    <img class="nexus-logo" src="img/logo_presentación.png" alt="NEXUS Presentación">
+    <span class="presentation-title">SGO/P · Sistema de Gestión Universal</span>
+  </div>
+  <div class="header-right">
+    <span class="slide-indicator" id="headerSlideIndicator">1 / 8</span>
+  </div>
+</header>
 
-<div class="presentation-container" id="presentationContainer" tabindex="-1">
-  <div class="slide-wrapper" id="slideWrapper">
+<!-- Botón de pantalla completa -->
+<div class="fullscreen-btn" id="fullscreenBtn" title="Pantalla completa">⛶</div>
+
+<!-- Visor principal -->
+<div class="presentation-container">
+  <div class="slide-wrapper">
     <img class="slide" id="currentSlide" src="img/slide-01.png" alt="Diapositiva SGO/P">
   </div>
 </div>
 
+<!-- Controles de navegación -->
 <div class="nav-controls">
   <div class="nav-btn" id="prevBtn" title="Anterior (←)">←</div>
   <div class="counter" id="counter">1 / 8</div>
   <div class="nav-btn" id="nextBtn" title="Siguiente (→)">→</div>
 </div>
 
-<div class="credit">SGO/P · Sistema de Gestión Universal de Proyectos</div>
+<!-- Pie NEXUS -->
+<div class="nexus-footer">NEXUS · Innovación en Gobernanza de Proyectos</div>
 
 <script>
-  (function() {
-    // TOTAL DE DIAPOSITIVAS: 8
+  (function(){
+    // CONFIGURACIÓN: 8 diapositivas
     const TOTAL_SLIDES = 8;
     let currentIndex = 0;
     
+    // Elementos del DOM
     const slideImg = document.getElementById('currentSlide');
     const counterEl = document.getElementById('counter');
+    const headerSlideIndicator = document.getElementById('headerSlideIndicator');
     const progressBar = document.getElementById('progressBar');
     const prevBtn = document.getElementById('prevBtn');
     const nextBtn = document.getElementById('nextBtn');
     const fullscreenBtn = document.getElementById('fullscreenBtn');
-    const container = document.getElementById('presentationContainer');
     
-    // Precarga de imágenes
-    const preloadImages = [];
-    for (let i = 1; i <= TOTAL_SLIDES; i++) {
-      const img = new Image();
-      img.src = img/slide-.png;
-      preloadImages.push(img);
-    }
-    
+    // Función para actualizar la diapositiva y UI
     function updateSlide(index) {
+      // Lógica circular
       if (index < 0) index = TOTAL_SLIDES - 1;
       if (index >= TOTAL_SLIDES) index = 0;
-      currentIndex = index;
       
+      currentIndex = index;
       const slideNumber = currentIndex + 1;
-      const imgSrc = img/slide-.png;
+      const imgSrc = `img/slide-${slideNumber.toString().padStart(2, '0')}.png`;
       
       slideImg.src = imgSrc;
-      slideImg.alt = Diapositiva  de ;
+      slideImg.alt = `Diapositiva ${slideNumber} de ${TOTAL_SLIDES}`;
       
-      counterEl.textContent = ${slideNumber} / ;
+      const counterText = `${slideNumber} / ${TOTAL_SLIDES}`;
+      counterEl.textContent = counterText;
+      headerSlideIndicator.textContent = counterText;
       
-      const progressPercent = (slideNumber / TOTAL_SLIDES) * 100;
-      progressBar.style.width = ${progressPercent}%;
+      const percent = (slideNumber / TOTAL_SLIDES) * 100;
+      progressBar.style.width = `${percent}%`;
     }
     
-    function nextSlide() {
-      updateSlide(currentIndex + 1);
-    }
+    // Navegación
+    function nextSlide() { updateSlide(currentIndex + 1); }
+    function prevSlide() { updateSlide(currentIndex - 1); }
     
-    function prevSlide() {
-      updateSlide(currentIndex - 1);
-    }
+    // Event Listeners para botones
+    prevBtn.addEventListener('click', (e) => { e.preventDefault(); prevSlide(); });
+    nextBtn.addEventListener('click', (e) => { e.preventDefault(); nextSlide(); });
     
-    // Eventos de botones
-    prevBtn.addEventListener('click', (e) => {
-      prevSlide();
-      container.focus(); // Asegurar foco para teclado
-    });
-    
-    nextBtn.addEventListener('click', (e) => {
-      nextSlide();
-      container.focus();
-    });
-    
-    // Navegación por teclado (usamos document en lugar de window)
-    document.addEventListener('keydown', (e) => {
+    // Teclado (flechas, Inicio, Fin)
+    window.addEventListener('keydown', (e) => {
       if (e.key === 'ArrowLeft') {
         e.preventDefault();
         prevSlide();
-        container.focus();
       } else if (e.key === 'ArrowRight') {
         e.preventDefault();
         nextSlide();
-        container.focus();
       } else if (e.key === 'Home') {
         e.preventDefault();
         updateSlide(0);
-        container.focus();
       } else if (e.key === 'End') {
         e.preventDefault();
         updateSlide(TOTAL_SLIDES - 1);
-        container.focus();
       }
     });
-    
-    // Hacer clic en el contenedor principal para recuperar foco
-    container.addEventListener('click', () => {
-      container.focus();
-    });
-    
-    // También al hacer clic en la imagen
-    slideImg.addEventListener('click', () => {
-      container.focus();
-    });
-    
-    // Swipe táctil
-    let touchStartX = 0;
-    let touchEndX = 0;
-    
-    document.addEventListener('touchstart', (e) => {
-      touchStartX = e.changedTouches[0].screenX;
-    }, {passive: true});
-    
-    document.addEventListener('touchend', (e) => {
-      touchEndX = e.changedTouches[0].screenX;
-      handleSwipe();
-    });
-    
-    function handleSwipe() {
-      const threshold = 50;
-      if (touchEndX < touchStartX - threshold) {
-        nextSlide();
-        container.focus();
-      } else if (touchEndX > touchStartX + threshold) {
-        prevSlide();
-        container.focus();
-      }
-    }
     
     // Pantalla completa
     fullscreenBtn.addEventListener('click', () => {
       if (!document.fullscreenElement) {
-        document.documentElement.requestFullscreen().then(() => {
-          container.focus();
-        });
+        document.documentElement.requestFullscreen();
       } else {
         document.exitFullscreen();
       }
     });
     
-    // Iniciar con foco en el contenedor para capturar teclas
+    // Swipe táctil básico
+    let touchStartX = 0;
+    document.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, {passive: true});
+    
+    document.addEventListener('touchend', (e) => {
+      const diff = e.changedTouches[0].screenX - touchStartX;
+      if (Math.abs(diff) > 50) {
+        diff < 0 ? nextSlide() : prevSlide();
+      }
+    });
+    
+    // Inicializar primera diapositiva
     updateSlide(0);
-    container.focus();
-    
-    // Prevenir comportamiento por defecto de otras teclas
-    window.addEventListener('keydown', (e) => {
-      if (['ArrowUp', 'ArrowDown', 'Space', 'PageUp', 'PageDown'].includes(e.key)) {
-        e.preventDefault();
-      }
-    }, false);
-    
-    // Reenfocar cuando el ratón sale y entra (útil en pantalla completa)
-    document.addEventListener('fullscreenchange', () => {
-      if (document.fullscreenElement) {
-        container.focus();
-      }
-    });
-    
-    // Asegurar foco si se hace clic en cualquier botón
-    document.querySelectorAll('.nav-btn, .fullscreen-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        setTimeout(() => container.focus(), 10);
-      });
-    });
   })();
 </script>
 </body>
