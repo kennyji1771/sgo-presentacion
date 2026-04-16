@@ -1,10 +1,10 @@
-Ôªø<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>NEXUS ¬∑ SGO/P | Presentaci√≥n Corporativa</title>
-  <!-- Tipograf√≠a Inter (estilo NEXUS) -->
+  <title>NEXUS ∑ SGO/P | PresentaciÛn Corporativa</title>
+  <!-- TipografÌa Inter (estilo NEXUS) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600&display=swap" rel="stylesheet">
@@ -23,7 +23,7 @@
       flex-direction: column;
       height: 100vh;
       overflow: hidden;
-      /* Sutil patr√≥n de rejilla tecnol√≥gica */
+      /* Sutil patrÛn de rejilla tecnolÛgica */
       background-image: 
         linear-gradient(rgba(0, 163, 255, 0.03) 1px, transparent 1px),
         linear-gradient(90deg, rgba(0, 163, 255, 0.03) 1px, transparent 1px);
@@ -128,7 +128,7 @@
       transition: width 0.25s ease-out;
     }
 
-    /* --- CONTROLES DE NAVEGACI√ìN (GLASS) --- */
+    /* --- CONTROLES DE NAVEGACI”N (GLASS) --- */
     .nav-controls {
       position: fixed;
       bottom: 28px;
@@ -190,7 +190,7 @@
       letter-spacing: 0.5px;
     }
 
-    /* --- BOT√ìN PANTALLA COMPLETA --- */
+    /* --- BOT”N PANTALLA COMPLETA --- */
     .fullscreen-btn {
       position: fixed;
       top: 80px;  /* debajo del header */
@@ -219,7 +219,7 @@
       border-color: #00A3FF;
     }
 
-    /* --- PIE DE P√ÅGINA DISCRETO --- */
+    /* --- PIE DE P¡GINA DISCRETO --- */
     .nexus-footer {
       position: fixed;
       bottom: 16px;
@@ -267,16 +267,16 @@
 <!-- ENCABEZADO NEXUS -->
 <header class="nexus-header">
   <div class="header-left">
-    <img class="nexus-logo" src="img/logo_presentaci√≥n.png" alt="NEXUS Presentaci√≥n">
-    <span class="presentation-title">SGO/P ¬∑ Sistema de Gesti√≥n Universal</span>
+    <img class="nexus-logo" src="img/nexus-logo.png" alt="NEXUS PresentaciÛn">
+    <span class="presentation-title">SGO/P ∑ Sistema de GestiÛn Universal</span>
   </div>
   <div class="header-right">
     <span class="slide-indicator" id="headerSlideIndicator">1 / 8</span>
   </div>
 </header>
 
-<!-- Bot√≥n de pantalla completa -->
-<div class="fullscreen-btn" id="fullscreenBtn" title="Pantalla completa">‚õ∂</div>
+<!-- BotÛn de pantalla completa -->
+<div class="fullscreen-btn" id="fullscreenBtn" title="Pantalla completa">?</div>
 
 <!-- Visor principal -->
 <div class="presentation-container">
@@ -285,19 +285,19 @@
   </div>
 </div>
 
-<!-- Controles de navegaci√≥n -->
+<!-- Controles de navegaciÛn -->
 <div class="nav-controls">
-  <div class="nav-btn" id="prevBtn" title="Anterior (‚Üê)">‚Üê</div>
+  <div class="nav-btn" id="prevBtn" title="Anterior (?)">?</div>
   <div class="counter" id="counter">1 / 8</div>
-  <div class="nav-btn" id="nextBtn" title="Siguiente (‚Üí)">‚Üí</div>
+  <div class="nav-btn" id="nextBtn" title="Siguiente (?)">?</div>
 </div>
 
 <!-- Pie NEXUS -->
-<div class="nexus-footer">NEXUS ¬∑ Innovaci√≥n en Gobernanza de Proyectos</div>
+<div class="nexus-footer">NEXUS ∑ InnovaciÛn en Gobernanza de Proyectos</div>
 
 <script>
   (function(){
-    // CONFIGURACI√ìN: 8 diapositivas
+    // CONFIGURACI”N: 8 diapositivas
     const TOTAL_SLIDES = 8;
     let currentIndex = 0;
     
@@ -310,9 +310,9 @@
     const nextBtn = document.getElementById('nextBtn');
     const fullscreenBtn = document.getElementById('fullscreenBtn');
     
-    // Funci√≥n para actualizar la diapositiva y UI
+    // FunciÛn para actualizar la diapositiva y UI
     function updateSlide(index) {
-      // L√≥gica circular
+      // LÛgica circular
       if (index < 0) index = TOTAL_SLIDES - 1;
       if (index >= TOTAL_SLIDES) index = 0;
       
@@ -331,7 +331,7 @@
       progressBar.style.width = `${percent}%`;
     }
     
-    // Navegaci√≥n
+    // NavegaciÛn
     function nextSlide() { updateSlide(currentIndex + 1); }
     function prevSlide() { updateSlide(currentIndex - 1); }
     
@@ -365,7 +365,7 @@
       }
     });
     
-    // Swipe t√°ctil b√°sico
+    // Swipe t·ctil b·sico
     let touchStartX = 0;
     document.addEventListener('touchstart', (e) => {
       touchStartX = e.changedTouches[0].screenX;
